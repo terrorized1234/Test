@@ -14,10 +14,10 @@ local window = KyriLib.new("Phantom Hub", {
     GameName = "Mic Up"
 })
 
-local home = window:tab("Home", "home")
+local home = window:tab("Home", "house")
 local player = window:tab("Player", "user")
-local teleport = window:tab("Teleport", "map-pin")
-local utilities = window:tab("Utilities", "wrench")
+local teleport = window:tab("Teleport", "map")
+local utilities = window:tab("Utilities", "plus")
 local spy = window:tab("Spy", "eye")
 local trolling = window:tab("Trolling", "skull")
 
@@ -28,9 +28,9 @@ home:button("Load Nametags", function()
     window:notify("Success", "Nametags loaded", 2)
 end)
 
-home:button("Load Reanimation UI", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Justanewplayer19/AngelHubScript/main/Reanimation.lua'))()
-    window:notify("Success", "Reanimation loaded", 2)
+home:button("Load Anti Void", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/terrorized1234/Test/refs/heads/main/antivoid.lua"))()
+    window:notify("Success", "AntiVoid loaded", 2)
 end)
 
 local AntiBangEnabled = false
@@ -48,7 +48,7 @@ task.spawn(function()
                 local hum = char and char:FindFirstChildWhichIsA('Humanoid')
                 local root = char and char:FindFirstChild('HumanoidRootPart')
                 local head = char and char:FindFirstChild('Head')
-                
+
                 local function IsPlayerSittingOnHead()
                     for _, p in ipairs(Players:GetPlayers()) do
                         if p ~= Player and p.Character then
@@ -61,7 +61,7 @@ task.spawn(function()
                     end
                     return nil
                 end
-                
+
                 local function IsUsingBangAnimation()
                     for _, p in ipairs(Players:GetPlayers()) do
                         if p ~= Player and p.Character then
@@ -79,7 +79,7 @@ task.spawn(function()
                     end
                     return nil
                 end
-                
+
                 if hum and root and head and not IsVoiding then
                     local offender = IsPlayerSittingOnHead() or IsUsingBangAnimation()
                     if offender and offender.Character then
@@ -88,7 +88,7 @@ task.spawn(function()
                         if hum2 then
                             hum2.Health = 0
                         end
-                        
+
                         pcall(function()
                             workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed
                             root.CFrame = root.CFrame + Vector3.new(0, -1000, 0)
@@ -96,7 +96,7 @@ task.spawn(function()
                             root.CFrame = root.CFrame + Vector3.new(0, 1000, 0)
                             workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
                         end)
-                        
+
                         IsVoiding = false
                     end
                 end
@@ -105,92 +105,6 @@ task.spawn(function()
         task.wait(0.1)
     end
 end)
-
-local ExpandEnabled = false
-local BaseplateOriginalSize = nil
-local BaseplateOriginalTransparency = nil
-local ExpansionConnection = nil
-
-home:toggle("Infinite Baseplate", false, function(state)
-    ExpandEnabled = state
-    
-    local function getBaseplate()
-        local searchPaths = {
-            function()
-                local map = workspace:FindFirstChild('Map')
-                local important = map and map:FindFirstChild('Important')
-                local baseplate = important and important:FindFirstChild('Baseplate')
-                if baseplate and baseplate:IsA('BasePart') then return baseplate end
-                if baseplate and baseplate:IsA('Folder') then
-                    for _, child in ipairs(baseplate:GetChildren()) do
-                        if child:IsA('BasePart') then return child end
-                    end
-                end
-                return nil
-            end,
-            function()
-                for _, child in ipairs(workspace:GetChildren()) do
-                    if child:IsA('BasePart') and (child.Name:lower():find('baseplate') or child.Name:lower():find('base')) then
-                        return child
-                    end
-                end
-                return nil
-            end
-        }
-        
-        for _, searchMethod in ipairs(searchPaths) do
-            local result = searchMethod()
-            if result then return result end
-        end
-        return nil
-    end
-    
-    if ExpandEnabled then
-        ExpansionConnection = RunService.Heartbeat:Connect(function()
-            pcall(function()
-                local baseplate = getBaseplate()
-                local char = Player.Character
-                local root = char and char:FindFirstChild('HumanoidRootPart')
-                
-                if baseplate and root and baseplate:IsA('BasePart') then
-                    if not BaseplateOriginalSize then
-                        BaseplateOriginalSize = baseplate.Size
-                    end
-                    if not BaseplateOriginalTransparency then
-                        BaseplateOriginalTransparency = baseplate.Transparency
-                    end
-                    
-                    baseplate.Transparency = 0.4
-                    
-                    local dist = (root.Position - baseplate.Position).Magnitude
-                    local stepSize = 300
-                    local targetSize = math.max(512, math.ceil(dist / stepSize) * stepSize * 2)
-                    
-                    if baseplate.Size.X < targetSize or baseplate.Size.Z < targetSize then
-                        baseplate.Size = Vector3.new(targetSize, baseplate.Size.Y, targetSize)
-                    end
-                end
-            end)
-        end)
-    else
-        if ExpansionConnection then
-            ExpansionConnection:Disconnect()
-            ExpansionConnection = nil
-        end
-        
-        pcall(function()
-            local baseplate = getBaseplate()
-            if baseplate and baseplate:IsA('BasePart') then
-                if BaseplateOriginalSize then
-                    baseplate.Size = BaseplateOriginalSize
-                end
-                if BaseplateOriginalTransparency then
-                    baseplate.Transparency = BaseplateOriginalTransparency
-                end
-            end
-        end)
-    end
-end, "infinitebase")
 
 local isEnabled = false
 local isHoldingZ = false
@@ -216,23 +130,23 @@ end
 
 RunService.RenderStepped:Connect(function()
     if not isEnabled or not isHoldingZ then return end
-    
+
     pcall(function()
         local char = Player.Character
         local humanoid = char and char:FindFirstChildWhichIsA('Humanoid')
         local root = char and char:FindFirstChild('HumanoidRootPart')
-        
+
         if not (humanoid and root) then return end
-        
+
         local target = getNearestPlayer()
         if not target or not target.Character then return end
-        
+
         local targetHead = target.Character:FindFirstChild('Head')
         if not targetHead then return end
-        
+
         humanoid.PlatformStand = true
         root.Velocity = Vector3.zero
-        
+
         local oscillation = math.sin(tick() * thrustSpeed) * 0.4
         local offset = CFrame.new(0, 1.5, -0.8 + oscillation)
         local faceForward = CFrame.Angles(0, math.rad(180), 0)
@@ -282,24 +196,24 @@ local LastMovement = tick()
 
 home:toggle("Anti-AFK", false, function(state)
     AntiAFKEnabled = state
-    
+
     if AntiAFKEnabled then
         AntiAFKConnection = RunService.Heartbeat:Connect(function()
             pcall(function()
                 local char = Player.Character
                 local humanoid = char and char:FindFirstChildWhichIsA('Humanoid')
                 local root = char and char:FindFirstChild('HumanoidRootPart')
-                
+
                 if humanoid and root then
                     if tick() - LastMovement >= 30 then
                         local currentPos = root.CFrame
                         root.CFrame = currentPos * CFrame.new(0.1, 0, 0)
                         task.wait(0.1)
                         root.CFrame = currentPos
-                        
+
                         game:GetService('VirtualUser'):CaptureController()
                         game:GetService('VirtualUser'):ClickButton2(Vector2.new())
-                        
+
                         local cam = workspace.CurrentCamera
                         if cam then
                             local currentCFrame = cam.CFrame
@@ -307,7 +221,7 @@ home:toggle("Anti-AFK", false, function(state)
                             task.wait(0.1)
                             cam.CFrame = currentCFrame
                         end
-                        
+
                         LastMovement = tick()
                     end
                 end
@@ -326,7 +240,7 @@ task.spawn(function()
         pcall(function()
             local char = Player.Character
             local humanoid = char and char:FindFirstChildWhichIsA('Humanoid')
-            
+
             if humanoid and humanoid.MoveDirection.Magnitude > 0 then
                 LastMovement = tick()
             end
@@ -499,23 +413,23 @@ end
 
 local function startSpyMode()
     updateSpectateTargets()
-    
+
     if #spectateTargets == 0 then
         window:notify("Spy Mode", "No players to spectate", 2)
         return false
     end
-    
+
     isSpyMode = true
     originalCameraSubject = camera.CameraSubject
     originalCameraType = camera.CameraType
-    
+
     local currentTarget = spectateTargets[currentTargetIndex]
     if currentTarget and currentTarget.Character and currentTarget.Character:FindFirstChild("Humanoid") then
         camera.CameraSubject = currentTarget.Character.Humanoid
         camera.CameraType = Enum.CameraType.Custom
         window:notify("Spy Mode", "Spectating " .. currentTarget.Name, 2)
     end
-    
+
     return true
 end
 
@@ -528,15 +442,15 @@ end
 
 local function switchTarget(direction)
     if not isSpyMode or #spectateTargets == 0 then return end
-    
+
     currentTargetIndex = currentTargetIndex + direction
-    
+
     if currentTargetIndex > #spectateTargets then
         currentTargetIndex = 1
     elseif currentTargetIndex < 1 then
         currentTargetIndex = #spectateTargets
     end
-    
+
     local currentTarget = spectateTargets[currentTargetIndex]
     if currentTarget and currentTarget.Character and currentTarget.Character:FindFirstChild("Humanoid") then
         camera.CameraSubject = currentTarget.Character.Humanoid
@@ -562,7 +476,7 @@ end)
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    
+
     if input.KeyCode == Enum.KeyCode.Q then
         switchTarget(-1)
     elseif input.KeyCode == Enum.KeyCode.E then
@@ -591,18 +505,18 @@ local function activateCamera(position, name)
     if isSpyMode then
         stopSpyMode()
     end
-    
+
     isCameraMode = true
     currentCameraPosition = position
     originalCameraMode = camera.CameraType
     originalCameraSubject = camera.CameraSubject
-    
+
     cameraRotationX = 0
     cameraRotationY = 0
-    
+
     camera.CameraType = Enum.CameraType.Scriptable
     camera.CFrame = CFrame.new(position)
-    
+
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
     window:notify("Camera", name .. " camera activated. Press X to exit", 3)
 end
@@ -612,37 +526,37 @@ local function exitCamera()
     currentCameraPosition = nil
     cameraRotationX = 0
     cameraRotationY = 0
-    
+
     camera.CameraType = originalCameraMode or Enum.CameraType.Custom
     camera.CameraSubject = originalCameraSubject or (Player.Character and Player.Character:FindFirstChild("Humanoid"))
-    
+
     UserInputService.MouseBehavior = Enum.MouseBehavior.Default
     window:notify("Camera", "Camera exited", 2)
 end
 
 UserInputService.InputChanged:Connect(function(input)
     if not isCameraMode or not currentCameraPosition then return end
-    
+
     if input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Delta
         local sensitivity = 0.3
-        
+
         cameraRotationY = cameraRotationY - math.rad(delta.X * sensitivity)
         cameraRotationX = cameraRotationX - math.rad(delta.Y * sensitivity)
-        
+
         cameraRotationX = math.clamp(cameraRotationX, -math.rad(89), math.rad(89))
-        
+
         local newCFrame = CFrame.new(currentCameraPosition) * 
                          CFrame.Angles(0, cameraRotationY, 0) * 
                          CFrame.Angles(cameraRotationX, 0, 0)
-        
+
         camera.CFrame = newCFrame
     end
 end)
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    
+
     if input.KeyCode == Enum.KeyCode.X and isCameraMode then
         exitCamera()
     end
@@ -688,17 +602,17 @@ local function followPlayer(target)
     if followConnection then
         followConnection:Disconnect()
     end
-    
+
     followConnection = RunService.RenderStepped:Connect(function()
         pcall(function()
             local char = Player.Character
             local targetChar = target.Character
             if not char or not targetChar then return end
-            
+
             local hrp = char:FindFirstChild("HumanoidRootPart")
             local humanoid = char:FindFirstChildOfClass("Humanoid")
             local targetHRP = targetChar:FindFirstChild("HumanoidRootPart")
-            
+
             if hrp and humanoid and targetHRP then
                 humanoid.Sit = false
                 humanoid:ChangeState(11)
@@ -706,7 +620,7 @@ local function followPlayer(target)
             end
         end)
     end)
-    
+
     window:notify("Follow", "Following " .. target.Name, 2)
 end
 
@@ -715,7 +629,7 @@ local function stopFollowing()
         followConnection:Disconnect()
         followConnection = nil
     end
-    
+
     local char = Player.Character
     if char then
         local humanoid = char:FindFirstChildOfClass("Humanoid")
@@ -723,7 +637,7 @@ local function stopFollowing()
             humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
         end
     end
-    
+
     window:notify("Follow", "Stopped following", 2)
 end
 
@@ -766,7 +680,7 @@ end)
 Players.PlayerRemoving:Connect(function(plr)
     if isSpyMode then
         updateSpectateTargets()
-        
+
         if #spectateTargets == 0 then
             stopSpyMode()
         elseif currentTargetIndex > #spectateTargets then
@@ -790,4 +704,4 @@ Player.CharacterAdded:Connect(function()
     end
 end)
 
-window:notify("Hellcats.wtf", "Script loaded successfully", 3)
+window:notify("Phantom Hub", "Script loaded successfully", 3)
