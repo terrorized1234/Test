@@ -133,4 +133,4 @@ end)
 -- Restore GUI
 ballButton.MouseButton1Click:Connect(function()
 	mainFrame.Visible = true
-	ballButton.Visible = falcalcal
+	ballButton.Visible = false
