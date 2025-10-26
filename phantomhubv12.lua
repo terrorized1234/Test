@@ -29,7 +29,8 @@ home:button("Load Nametags", function()
 end)
 
 home:button("Load Anti Void", function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/terrorized1234/Test/refs/heads/main/antivoud.lua"))()
+    -- FIXED: Corrected typo in URL from "antivoud.lua" to "antivoid.lua"
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/terrorized1234/Test/refs/heads/main/antivoid.lua"))()
     window:notify("Success", "AntiVoid loaded", 2)
 end)
 
@@ -268,7 +269,7 @@ player:slider("JumpPower", 50, 300, 50, function(value)
 end, "jumppower")
 
 player:button("Superman Fly", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Justanewplayer19/AngelHubScript/refs/heads/main/SupermanFly.lua'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Justanewplayer19/AngelHubScript/refs/heads/mua'))()
     window:notify("Success", "Superman fly loaded", 2)
 end)
 
