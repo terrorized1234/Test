@@ -29,7 +29,7 @@ home:button("Load Nametags", function()
 end)
 
 home:button("Load Anti Void", function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Airwalk-43305"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/terrorized1234/Test/refs/heads/main/antivoid.lua"))()
     window:notify("Success", "AntiVoid loaded", 2)
 end)
 
@@ -583,10 +583,10 @@ trolling:label("trolling features")
 
 local function createPlatform()
     local platform = Instance.new("Part")
-    platform.Name = "HellcatsGround"
+    platform.Name = "infbaseplate"
     platform.Anchored = true
-    platform.Size = Vector3.new(1000, 5, 1000)
-    platform.Position = Vector3.new(0, 0, 0)
+    platform.Size = Vector3.new(9000, 5, 9000)
+    platform.Position = Vector3.new(400, 10, 5)
     platform.Transparency = 0.5
     platform.BrickColor = BrickColor.new("Really black")
     platform.Material = Enum.Material.SmoothPlastic
