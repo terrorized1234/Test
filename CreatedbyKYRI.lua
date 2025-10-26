@@ -10,7 +10,7 @@ local Player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 workspace.FallenPartsDestroyHeight = 0 / 0
 
-local window = KyriLib.new("Vivid Hub", {
+local window = KyriLib.new("Phantom Hub", {
     GameName = "Mic Up"
 })
 
