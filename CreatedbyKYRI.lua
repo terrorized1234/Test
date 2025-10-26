@@ -580,21 +580,6 @@ spy:dropdown("Select Camera", cameraOptions, "School Lockers", function(selected
 end)
 
 trolling:label("trolling features")
-
-local function createPlatform()
-    local platform = Instance.new("Part")
-    platform.Name = "infbaseplate"
-    platform.Anchored = true
-    platform.Size = Vector3.new(9000, 5, 9000)
-    platform.Position = Vector3.new(400, 10, 5)
-    platform.Transparency = 0.5
-    platform.BrickColor = BrickColor.new("Really black")
-    platform.Material = Enum.Material.SmoothPlastic
-    platform.Parent = workspace
-end
-
-createPlatform()
-
 local followConnection = nil
 local targetToFollow = nil
 
