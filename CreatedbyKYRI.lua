@@ -29,7 +29,7 @@ home:button("Load Nametags", function()
 end)
 
 home:button("Load Anti Void", function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/terrorized1234/Test/refs/heads/main/antivoid.lua"))()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Airwalk-43305"))()
     window:notify("Success", "AntiVoid loaded", 2)
 end)
 
