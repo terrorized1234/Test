@@ -74,7 +74,7 @@ local ServerBoosters = { "" }
 local KyrisWife = { "" }
 local AlexsWife = { "" }
 
-local vividHubMessage = "!"
+local vividHubMessage = ""
 local akAdminMessage = ""
 
 local function downloadCustomImage(url, fileName)
